@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Slider</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var $carousel = $('.flickity-slider');
+            var $progressBar = $('.progress-bar');
+
+            $carousel.owlCarousel({
+                items: 5, // Number of items to show
+                loop: false,
+                margin: 10,
+                onChanged: updateProgressBar, // Call the updateProgressBar function on carousel change
+                responsive: {
+                    0: {
+                        // Responsive settings for mobile devices
+                        items: 1.5, // Display one item at a time on mobile
+                        nav: false, // Hide navigation buttons on mobile
+                        touchDrag: true, // Enable touch drag on mobile
+                        mouseDrag: false // Disable mouse drag on mobile
+                    },
+                    768: {
+                        // Responsive settings for tablets and larger screens
+                        items: 5 // Display five items at a time on larger screens
+                    }
+                }
+            });
+
+            // Variable to keep track of touch start position
+            // Variable to keep track of touch start position
+            var touchStartX = 0;
+
+            // Touch start event listener
+            $carousel.on("touchstart", function (event) {
+                var touch = event.originalEvent.touches[0];
+                touchStartX = touch.clientX;
+            });
+
+            // Touch end event listener
+            $carousel.on("touchend", function (event) {
+                var touch = event.originalEvent.changedTouches[0];
+                var touchEndX = touch.clientX;
+
+                if (touchEndX < touchStartX) {
+                    // Swiped left (next)
+                    $carousel.trigger("next.owl.carousel");
+                } else if (touchEndX > touchStartX) {
+                    // Swiped right (previous)
+                    $carousel.trigger("prev.owl.carousel");
+                }
+            });
+            function updateProgressBar(event) {
+                var visibleItems = event.item.count; // Number of visible items
+                var currentItem = Math.abs(event.item.index) + 1; // Index of the current item
+                var progressPercentage = (currentItem / visibleItems) * 100; // Calculate the progress percentage
+
+                $progressBar.css('width', progressPercentage + '%');
+            }
+
+            // Arrow navigation
+            $('.owl-nav .owl-prev').click(function () {
+                $carousel.trigger('prev.owl.carousel');
+            });
+
+            $('.owl-nav .owl-next').click(function () {
+                $carousel.trigger('next.owl.carousel');
+            });
+        });
+    </script>
+
+
+
+
+</head>
+<style>
+    .progress-bar {
+        height: 5px;
+        background-color: #000;
+        transition: width 0.5s ease;
+    }
+
+    .image-contain img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .slider-container {
+        position: relative;
+    }
+
+    .owl-nav .owl-prev,
+    .owl-nav .owl-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        color: #fff;
+        font-size: 30px;
+        cursor: pointer;
+        padding: 10px 20px;
+        background: #000;
+        z-index: 1111;
+        border-radius: 5px;
+    }
+
+    .owl-nav .owl-prev {
+        left: 10px;
+    }
+
+    .owl-nav .owl-next {
+        right: 10px;
+    }
+</style>
+
+<body>
+    <div class="slider-container">
+        <div class="flickity-slider owl-carousel">
+            <div class="Carousel__Cell quality-item is-selected">
+                <div class="image-contain">
+                    <img loading="lazy"
+                        src="//cdn.shopify.com/s/files/1/2597/1814/files/Thick_Gold_Cuban_Necklace_Clasp_FRONT_6e5a4e24-e663-432f-8926-a2d31aba45b5_525x.png?v=1667956638"
+                        aria-hidden="true" alt="">
+                </div>
+                <p class="p-lg">Premium Materials</p>
+                <p class="p-alt">Our jewelry is crafted using the highest quality materials including real 18k gold,
+                    pure
+                    925 sterling silver, and natural stones. Each piece is meticulously inspected during production to
+                    ensure it meets our exact standards.</p>
+            </div>
+            <div class="Carousel__Cell quality-item is-selected">
+                <div class="image-contain">
+                    <img loading="lazy"
+                        src="//cdn.shopify.com/s/files/1/2597/1814/files/Durability_8e0a5b00-2958-455f-a48f-276e9019b342_525x.png?v=1668137133"
+                        aria-hidden="true" alt="">
+                </div>
+                <p class="p-lg">Ultimate Durability</p>
+                <p class="p-alt">Not only does our jewelry look great, but they’re also designed to last forever and not
+                    fade, tarnish, or break. You’ll never have to worry about your skin turning green or anything ever
+                    feeling cheap.</p>
+            </div>
+            <div class="Carousel__Cell quality-item is-selected">
+                <div class="image-contain">
+                    <img loading="lazy"
+                        src="//cdn.shopify.com/s/files/1/2597/1814/files/Gold_Cuban_Bracelet_34s_525x.png?v=1667676531"
+                        aria-hidden="true" alt="">
+                </div>
+                <p class="p-lg">Custom Designs</p>
+                <p class="p-alt">Unlike other jewelry brands who simply take off-the-shelf products and stamp them with
+                    their logo, we custom design everything so you won’t find our pieces anywhere else. This is a much
+                    more
+                    expensive and time intensive process, but it ensures our jewelry stays unique.</p>
+            </div>
+            <div class="Carousel__Cell quality-item is-selected">
+                <div class="image-contain">
+                    <img loading="lazy"
+                        src="//cdn.shopify.com/s/files/1/2597/1814/files/Handmade_2e9bb3b6-dac8-425d-ad2e-38f8d6d94b95_525x.png?v=1668137364"
+                        aria-hidden="true" alt="">
+                </div>
+                <p class="p-lg">Handmade by Experts</p>
+                <p class="p-alt">We’ve partnered with pioneers in the jewelry industry to bring you incredible
+                    craftsmanship, which allows us to develop unique, high-quality, and durable products. Each piece is
+                    handmade and hand inspected ensuring a final product that’s nothing short of perfection.</p>
+            </div>
+            <div class="Carousel__Cell quality-item">
+                <div class="image-contain">
+                    <img loading="lazy"
+                        src="//cdn.shopify.com/s/files/1/2597/1814/files/Production_525x.png?v=1668134718"
+                        aria-hidden="true" alt="">
+                </div>
+                <p class="p-lg">Responsible Production</p>
+                <p class="p-alt">We work directly with each of our manufacturers to ensure our products are responsibly
+                    produced. This means we have vetted where our materials are sourced from, the production facility
+                    our
+                    craftsmen work in, and how our products impact the environment.</p>
+            </div>
+            <div class="Carousel__Cell quality-item">
+                <div class="image-contain">
+                    <img loading="lazy"
+                        src="//cdn.shopify.com/s/files/1/2597/1814/files/Production_525x.png?v=1668134718"
+                        aria-hidden="true" alt="">
+                </div>
+                <p class="p-lg">Responsible Production</p>
+                <p class="p-alt">We work directly with each of our manufacturers to ensure our products are responsibly
+                    produced. This means we have vetted where our materials are sourced from, the production facility
+                    our
+                    craftsmen work in, and how our products impact the environment.</p>
+            </div>
+            <div class="Carousel__Cell quality-item">
+                <div class="image-contain">
+                    <img loading="lazy"
+                        src="//cdn.shopify.com/s/files/1/2597/1814/files/Production_525x.png?v=1668134718"
+                        aria-hidden="true" alt="">
+                </div>
+                <p class="p-lg">Responsible Production</p>
+                <p class="p-alt">We work directly with each of our manufacturers to ensure our products are responsibly
+                    produced. This means we have vetted where our materials are sourced from, the production facility
+                    our
+                    craftsmen work in, and how our products impact the environment.</p>
+            </div>
+            <div class="Carousel__Cell quality-item is-selected">
+                <div class="image-contain">
+                    <img loading="lazy"
+                        src="//cdn.shopify.com/s/files/1/2597/1814/files/Handmade_2e9bb3b6-dac8-425d-ad2e-38f8d6d94b95_525x.png?v=1668137364"
+                        aria-hidden="true" alt="">
+                </div>
+                <p class="p-lg">Handmade by Experts</p>
+                <p class="p-alt">We’ve partnered with pioneers in the jewelry industry to bring you incredible
+                    craftsmanship, which allows us to develop unique, high-quality, and durable products. Each piece is
+                    handmade and hand inspected ensuring a final product that’s nothing short of perfection.</p>
+            </div>
+            <div class="Carousel__Cell quality-item is-selected">
+                <div class="image-contain">
+                    <img loading="lazy"
+                        src="//cdn.shopify.com/s/files/1/2597/1814/files/Handmade_2e9bb3b6-dac8-425d-ad2e-38f8d6d94b95_525x.png?v=1668137364"
+                        aria-hidden="true" alt="">
+                </div>
+                <p class="p-lg">Handmade by Experts</p>
+                <p class="p-alt">We’ve partnered with pioneers in the jewelry industry to bring you incredible
+                    craftsmanship, which allows us to develop unique, high-quality, and durable products. Each piece is
+                    handmade and hand inspected ensuring a final product that’s nothing short of perfection.</p>
+            </div>
+            <div class="Carousel__Cell quality-item is-selected">
+                <div class="image-contain">
+                    <img loading="lazy"
+                        src="//cdn.shopify.com/s/files/1/2597/1814/files/Handmade_2e9bb3b6-dac8-425d-ad2e-38f8d6d94b95_525x.png?v=1668137364"
+                        aria-hidden="true" alt="">
+                </div>
+                <p class="p-lg">Handmade by Experts</p>
+                <p class="p-alt">We’ve partnered with pioneers in the jewelry industry to bring you incredible
+                    craftsmanship, which allows us to develop unique, high-quality, and durable products. Each piece is
+                    handmade and hand inspected ensuring a final product that’s nothing short of perfection.</p>
+            </div>
+            <div class="Carousel__Cell quality-item is-selected">
+                <div class="image-contain">
+                    <img loading="lazy"
+                        src="//cdn.shopify.com/s/files/1/2597/1814/files/Handmade_2e9bb3b6-dac8-425d-ad2e-38f8d6d94b95_525x.png?v=1668137364"
+                        aria-hidden="true" alt="">
+                </div>
+                <p class="p-lg">Handmade by Experts</p>
+                <p class="p-alt">We’ve partnered with pioneers in the jewelry industry to bring you incredible
+                    craftsmanship, which allows us to develop unique, high-quality, and durable products. Each piece is
+                    handmade and hand inspected ensuring a final product that’s nothing short of perfection.</p>
+            </div>
+            <div class="Carousel__Cell quality-item is-selected">
+                <div class="image-contain">
+                    <img loading="lazy"
+                        src="//cdn.shopify.com/s/files/1/2597/1814/files/Handmade_2e9bb3b6-dac8-425d-ad2e-38f8d6d94b95_525x.png?v=1668137364"
+                        aria-hidden="true" alt="">
+                </div>
+                <p class="p-lg">Handmade by Experts</p>
+                <p class="p-alt">We’ve partnered with pioneers in the jewelry industry to bring you incredible
+                    craftsmanship, which allows us to develop unique, high-quality, and durable products. Each piece is
+                    handmade and hand inspected ensuring a final product that’s nothing short of perfection.</p>
+            </div>
+        </div>
+        <div class="owl-nav">
+            <button class="owl-prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="owl-next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+    <div class="progress-bar"></div>
+
+</body>
+
+</html>
